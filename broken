@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    Rigidbody rb;
+    bool isGrounded;
+    float horizontalInput;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(coll.gameObject.name == "Ground")
+        {
+            isGrounded = true;
+            Debug.Log("Grounded");
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+    }
+
+    void Update()
+    {
+        if (isGrounded)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+            }
+
+            horizontalInput = Input.GetAxis("Horizontal");
+            Move();
+        }
+
+        else
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+            AirStrafe();
+        }
+    }
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * 350);
+    }
+
+    void Move()
+    {
+        rb.velocity = new Vector3(horizontalInput * 5, rb.velocity.y, 0);
+    }
+
+    void AirStrafe()
+    {
+        rb.velocity = new Vector3(horizontalInput * 4, rb.velocity.y, 0);
+    }
+}
