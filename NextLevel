@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class NextLevel : MonoBehaviour
+{
+    public bool test;
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            test = true;
+        }
+        else test = false;
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        test = false;
+    }
+    public void Update()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        int buildIndex = currentScene.buildIndex;
+        if (test)
+        {            Debug.Log("Alert!");
+
+            switch (buildIndex)
+            {
+                case 0:
+                    SceneManager.LoadScene(1);
+                    break;
+                case 1:
+                    SceneManager.LoadScene(2);
+                    break;
+                default:
+                    Debug.Log("SCENE ERROR!!!");
+                    break;
+            }
+        }
+    }  
+}
+
+ 
